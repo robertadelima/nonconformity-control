@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +13,22 @@ namespace NonconformityControl.Controllers
     public class NonconformityController : ControllerBase
     {
         private readonly ILogger<NonconformityController> _logger;
+        private readonly NonconformityRepository _repository;
 
-        public NonconformityController(ILogger<NonconformityController> logger)
+        public NonconformityController(NonconformityRepository repository, ILogger<NonconformityController> logger)
         {
+            _repository = repository;
             _logger = logger;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Nonconformity>>> Get([FromServices] NonconformityContext context)
+        //public async Task<ActionResult<List<Nonconformity>>> Get([FromServices] NonconformityContext context)
+        public IEnumerable<Nonconformity> Get()
         {
-            var nonconformities = await context.Nonconformities.Include(x => x.Actions).ToListAsync();
-            return nonconformities;
+            return _repository.GetAll();
+            //var nonconformities = await context.Nonconformities.Include(x => x.Actions).ToListAsync();
+            //return nonconformities;
         }
 
         [HttpPost]

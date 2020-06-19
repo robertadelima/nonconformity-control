@@ -14,10 +14,9 @@ namespace NonconformityControl.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Efficient = table.Column<bool>(nullable: false),
-                    Active = table.Column<bool>(nullable: false)
+                    Status = table.Column<int>(nullable: false),
+                    Evaluation = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +29,7 @@ namespace NonconformityControl.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     NonconformityId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

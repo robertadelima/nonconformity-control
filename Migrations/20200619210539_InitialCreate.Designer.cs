@@ -9,7 +9,7 @@ using NonconformityControl.Infra.Repositories;
 namespace NonconformityControl.Migrations
 {
     [DbContext(typeof(NonconformityContext))]
-    [Migration("20200618223717_InitialCreate")]
+    [Migration("20200619210539_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,6 @@ namespace NonconformityControl.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int?>("NonconformityId")
@@ -45,20 +44,17 @@ namespace NonconformityControl.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Code")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<bool>("Efficient")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<int>("Evaluation")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
