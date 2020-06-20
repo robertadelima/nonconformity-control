@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NonconformityControl.Infra.Repositories;
 
 namespace NonconformityControl.Migrations
 {
     [DbContext(typeof(NonconformityContext))]
-    partial class NonconformityContextModelSnapshot : ModelSnapshot
+    [Migration("20200620000650_InitialFixConfig")]
+    partial class InitialFixConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
