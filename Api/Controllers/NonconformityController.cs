@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NonconformityControl.Models;
@@ -7,7 +8,7 @@ using NonconformityControl.Infra.Repositories;
 namespace NonconformityControl.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("nonconformities")]
     public class NonconformityController : ControllerBase
     {
         private readonly ILogger<NonconformityController> _logger;
