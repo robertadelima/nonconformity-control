@@ -23,10 +23,12 @@ namespace NonconformityControl
         {
             services.AddDbContext<NonconformityContext>(
                 options => options.UseMySql(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")));
+            
             services.AddControllers();
 
             services.AddScoped<NonconformityContext, NonconformityContext>();
             services.AddTransient<NonconformityRepository, NonconformityRepository>();
+            services.AddTransient<ActionRepository, ActionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

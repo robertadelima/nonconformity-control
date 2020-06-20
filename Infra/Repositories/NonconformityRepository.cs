@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using NonconformityControl.Models;
 
 namespace NonconformityControl.Infra.Repositories
@@ -12,7 +14,12 @@ namespace NonconformityControl.Infra.Repositories
         }
         public IEnumerable<Nonconformity> GetAll()
         {
-            return _context.Nonconformities;
+            return _context.Nonconformities.AsNoTracking();
+        } 
+
+        public Nonconformity GetById(int id)
+        {
+            return _context.Nonconformities.AsNoTracking().FirstOrDefault(p => p.Id == id);
         } 
 
         public void Add(Nonconformity nonconformity){
