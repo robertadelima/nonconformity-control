@@ -6,10 +6,12 @@ namespace NonconformityControl.Models
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public Nonconformity Nonconformity { get; set; }
+        public Nonconformity Nonconformity { get; set; } //ifremoved
+        public int NonconformityId { get; set; }
 
-        public Action(string description)
+        public Action(int nonconformityId, string description)
         {
+            NonconformityId = nonconformityId;
             Description = description;
         }
     }

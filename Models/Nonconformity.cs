@@ -9,7 +9,7 @@ namespace NonconformityControl.Models
         public int Id { get; set; }
         public string Code { get; private set; }     //{Ano}:{Identificador}:{Revisão}
         public string Description { get;  set; }  
-        public List<Action> Actions { get; private set; }
+        public virtual List<Action> Actions { get; private set; }
         public StatusEnum Status { get; private set; }
         public EvaluationEnum Evaluation { get; set; }
 

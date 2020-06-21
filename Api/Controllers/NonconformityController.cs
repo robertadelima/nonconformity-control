@@ -34,16 +34,19 @@ namespace NonconformityControl.Controllers
                 Description = p.Description,
                 Code = p.Code,
                 Status = p.Status,
-                Actions = p.Actions
+                Actions = p.Actions.Select(p => new ActionViewModel
+                {
+                    Description = p.Description
+                }).ToList()
             }).ToList();
         }
 
         [HttpPost]
         [Route("")]
-        public string Post([FromBody]AddNonconformityViewModel model)
+        public string Post([FromBody]AddNonconformityViewModel request)
         {
             //model.Validate();
-            Nonconformity nonconformity = new Nonconformity(model.Description);
+            Nonconformity nonconformity = new Nonconformity(request.Description);
             _repository.Add(nonconformity);
             return "Nonconformity successfully salved";
         }
@@ -57,10 +60,17 @@ namespace NonconformityControl.Controllers
 
         [HttpPost]
         [Route("{id}/actions")]
-        public string PostActions([FromBody]Action model)
+        public IActionResult PostActions(int id, [FromBody]AddActionViewModel request)
         {
-            _actionRepository.Add(model);
-            return "Action successfully salved";
+            Nonconformity nonconformity = _repository.GetById(id);
+            if(nonconformity == null)
+            {
+                return BadRequest();
+            }
+            Action action = new Action(id, request.Description);
+            _repository.AddActionToNonconformity(id, action);
+            _actionRepository.Add(action);
+            return Ok();
         }
 
 

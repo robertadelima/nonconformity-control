@@ -29,7 +29,10 @@ namespace NonconformityControl
                 options => options.UseMySql(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")));
             
             services.AddControllers()
-                    .AddFluentValidation();
+                    .AddFluentValidation()
+                    .AddNewtonsoftJson(options =>
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
 
             services.AddScoped<NonconformityContext, NonconformityContext>();
             services.AddTransient<NonconformityRepository, NonconformityRepository>();

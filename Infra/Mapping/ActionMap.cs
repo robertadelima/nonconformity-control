@@ -11,6 +11,7 @@ namespace NonconformityControl.Infra.Mapping
             builder.ToTable("Actions");
             builder.HasKey("Id");
             builder.Property(p => p.Description).IsRequired().HasMaxLength(1024).HasColumnType("VARCHAR(1024)");
+            builder.HasOne(p => p.Nonconformity).WithMany(p => p.Actions);
         }
     }
 }
