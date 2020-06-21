@@ -9,7 +9,8 @@ namespace NonconformityControl.Api.ViewModels
         public int Id { get; set; }
         public string Code { get; set; }  
         public string Description { get; set; }  
-        public List<ActionViewModel> Actions { get; set; }
         public StatusEnum Status { get; set; }
+        public List<ActionViewModel> Actions { get; set; }
+        
     }
 }

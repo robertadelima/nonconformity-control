@@ -36,7 +36,8 @@ namespace NonconformityControl.Controllers
                 Status = p.Status,
                 Actions = p.Actions.Select(p => new ActionViewModel
                 {
-                    Description = p.Description
+                    Description = p.Description,
+                    Id = p.Id
                 }).ToList()
             }).ToList();
         }
