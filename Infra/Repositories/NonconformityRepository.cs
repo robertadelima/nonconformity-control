@@ -27,6 +27,13 @@ namespace NonconformityControl.Infra.Repositories
         public void Add(Nonconformity nonconformity){
             _context.Nonconformities.Add(nonconformity);
             _context.SaveChanges();
+
+            var addedNonconformity = _context.Nonconformities.OrderByDescending(p => p.Id).FirstOrDefault();
+            var code = string.Concat((DateTime.UtcNow.Year) + ":" + addedNonconformity.Id.ToString("D2") + ":" 
+                + addedNonconformity.Version.ToString("D2")); 
+            addedNonconformity.UpdateCode(code);
+            _context.Nonconformities.Update(addedNonconformity);
+            _context.SaveChanges();
         }
 
         public void AddActionToNonconformity(int id, Models.Action action)

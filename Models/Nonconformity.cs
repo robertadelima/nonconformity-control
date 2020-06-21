@@ -7,7 +7,7 @@ namespace NonconformityControl.Models
     {
         public int Id { get; set; }
         public int Version { get; set; }
-        public string Code { get; private set; } //{Ano}:{Identificador}:{Revisão}
+        public string Code { get; private set; } 
         public string Description { get;  set; }  
         public virtual List<Action> Actions { get; private set; }
         public StatusEnum Status { get; private set; }
@@ -15,10 +15,15 @@ namespace NonconformityControl.Models
 
         public Nonconformity(string description, int version = 1)
         {
+            Code = ""; //TODO: REMOVER
             Version = version;
             Description = description;
             Evaluation = EvaluationEnum.New;
             Status = StatusEnum.Active;
+        }
+
+        public void UpdateCode(string code){
+            this.Code = code;
         }
 
         public void Validar() 
