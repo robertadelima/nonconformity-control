@@ -10,6 +10,7 @@ namespace NonconformityControl.Infra.Mapping
         {
             builder.ToTable("Nonconformities");
             builder.HasKey(p => p.Id);
+            builder.Property(p => p.Version);
             builder.Property(p => p.Code).IsRequired().HasColumnType("VARCHAR(15)");
             //.HasComputedColumnSql("YEAR(NOW()) + ':' + [Id] + ':'");
             builder.Property(p => p.Description).HasMaxLength(1024).HasColumnType("VARCHAR(1024)");
