@@ -42,36 +42,42 @@ namespace NonconformityControl.Controllers
             }).ToList();
         }
 
-        [HttpPost]
-        [Route("")]
-        public string Post([FromBody]AddNonconformityViewModel request)
-        {
-            //model.Validate();
-            Nonconformity nonconformity = new Nonconformity(request.Description);
-            _repository.Add(nonconformity);
-            return "Nonconformity successfully salved";
-        }
-
         [HttpGet]
         [Route("{id}")]
-        public Nonconformity GetById(int id)
+        public IActionResult GetById(int id)
         {
-            return _repository.GetById(id);
+            var nonconformity = _repository.GetById(id);
+            if(nonconformity == null)
+            {
+                return NotFound();
+            }
+            
+            return new ObjectResult(nonconformity); // TODO
+        }
+
+        [HttpPost]
+        [Route("")]
+        public IActionResult Post([FromBody]AddNonconformityViewModel request)
+        {
+            // TODO: model.Validate();
+            Nonconformity nonconformity = new Nonconformity(request.Description);
+            _repository.Add(nonconformity);
+            return Ok("Nonconformity successfully saved!");
         }
 
         [HttpPost]
         [Route("{id}/actions")]
         public IActionResult PostActions(int id, [FromBody]AddActionViewModel request)
         {
-            Nonconformity nonconformity = _repository.GetById(id);
+            var nonconformity = _repository.GetById(id);
             if(nonconformity == null)
             {
-                return BadRequest();
+                return BadRequest("");
             }
             Action action = new Action(id, request.Description);
             _repository.AddActionToNonconformity(id, action);
             _actionRepository.Add(action);
-            return Ok();
+            return Ok("Action successfully saved!");
         }
 
 

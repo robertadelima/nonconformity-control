@@ -21,7 +21,7 @@ namespace NonconformityControl.Infra.Repositories
 
         public Nonconformity GetById(int id)
         {
-            return _context.Nonconformities.AsNoTracking().FirstOrDefault(p => p.Id == id);
+            return _context.Nonconformities.Include(p => p.Actions).AsNoTracking().FirstOrDefault(p => p.Id == id);
         } 
 
         public void Add(Nonconformity nonconformity){
@@ -34,10 +34,7 @@ namespace NonconformityControl.Infra.Repositories
             Nonconformity nonconformity = _context.Nonconformities.FirstOrDefault(p => p.Id == id);
             nonconformity?.Actions?.Add(action);
             _context.SaveChanges();
-            /*Collection.UpdateOne(
-                blog => blog.Owner.Equals(owner),
-                Builders<Blog>.Update.Push(blog => blog.Posts, post)
-            );*/
+
         }
     }
 }
