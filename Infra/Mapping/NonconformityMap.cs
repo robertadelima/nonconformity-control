@@ -16,7 +16,6 @@ namespace NonconformityControl.Infra.Mapping
             builder.Property(p => p.Status).HasColumnType("TINYINT");
             builder.Property(p => p.Evaluation).HasColumnType("TINYINT");
             //builder.HasMany(p => p.Actions).WithOne(p => p.Nonconformity);
-            
         }
     }
 }

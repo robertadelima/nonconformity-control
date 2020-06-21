@@ -15,7 +15,6 @@ namespace NonconformityControl.Models
 
         public Nonconformity(string description, int version = 1)
         {
-            Code = ""; //TODO: REMOVER
             Version = version;
             Description = description;
             Evaluation = EvaluationEnum.New;
