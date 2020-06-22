@@ -21,13 +21,31 @@ namespace NonconformityControl.Models
             Status = StatusEnum.Active;
         }
 
-        public void UpdateCode(string code){
+        public void UpdateCode(string code)
+        {
             this.Code = code;
+        }
+
+        public void setAsEfficient()
+        {
+            this.Evaluation = EvaluationEnum.Efficient;
+            setAsInactive();
+        }
+
+        private void setAsInactive()
+        {
+            this.Status = StatusEnum.Inactive;
         }
 
         public void Validar() 
         {
 
+        }
+
+        internal void setAsInefficient()
+        {
+            this.Evaluation = EvaluationEnum.Inefficient;
+            setAsInactive();
         }
     }
 }

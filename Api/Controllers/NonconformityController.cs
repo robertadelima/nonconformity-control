@@ -80,6 +80,34 @@ namespace NonconformityControl.Controllers
             return Ok("Action successfully saved!");
         }
 
+        [HttpPut]
+        [Route("{id}/efficient")]
+        public IActionResult PutEfficient(int id)
+        {
+            var nonconformity = _repository.GetById(id);
+            if(nonconformity == null)
+            {
+                return BadRequest();
+            }
+            _repository.UpdateAsEfficient(id);
+            return Ok("Successfully set as efficient nonconformity!");
+        }
+
+        [HttpPut]
+        [Route("{id}/inefficient")]
+        public IActionResult PutInefficient(int id)
+        {
+            var nonconformity = _repository.GetById(id);
+            if(nonconformity == null)
+            {
+                return BadRequest();
+            }
+            _repository.UpdateAsInefficient(id);
+            var newNonconformity = new Nonconformity(nonconformity.Description, nonconformity.Version + 1);
+            _repository.Add(newNonconformity);
+            return Ok("Successfully set as inefficient nonconformity and new version of nonconformity created!");
+        }
+
 
     }
 }

@@ -43,5 +43,21 @@ namespace NonconformityControl.Infra.Repositories
             _context.SaveChanges();
 
         }
+
+        public void UpdateAsEfficient(int id)
+        {
+            Nonconformity nonconformity = _context.Nonconformities.FirstOrDefault(p => p.Id == id);
+            nonconformity.setAsEfficient();
+            _context.Nonconformities.Update(nonconformity);
+            _context.SaveChanges();
+        }
+
+        public void UpdateAsInefficient(int id)
+        {
+            Nonconformity nonconformity = _context.Nonconformities.FirstOrDefault(p => p.Id == id);
+            nonconformity.setAsInefficient();
+            _context.Nonconformities.Update(nonconformity);
+            _context.SaveChanges();
+        }
     }
 }
