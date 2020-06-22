@@ -108,6 +108,26 @@ namespace NonconformityControl.Controllers
             return Ok("Successfully set as inefficient nonconformity and new version of nonconformity created!");
         }
 
+        [HttpGet]
+        [Route("status")]
+        public List<EnumViewModel> ListStatus()
+        {
+            return System.Enum.GetValues(typeof(StatusEnum)).Cast<StatusEnum>().Select(p => new EnumViewModel {
+                Id = ((int)p),
+                Description = p.ToString()
+            }).ToList();
+        }
+
+        [HttpGet]
+        [Route("evaluation")]
+        public List<EnumViewModel> ListEvaluation()
+        {
+            return System.Enum.GetValues(typeof(EvaluationEnum)).Cast<EvaluationEnum>().Select(p => new EnumViewModel {
+                Id = ((int)p),
+                Description = p.ToString()
+            }).ToList();
+        }
+
 
     }
 }
