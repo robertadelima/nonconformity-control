@@ -1,6 +1,7 @@
 namespace NonconformityControl.Api.ViewModels
 {
-    public class AddActionViewModel : ActionViewModel
+    public class AddActionViewModel
     {
+         public string Description { get; set; }
     }
 }
