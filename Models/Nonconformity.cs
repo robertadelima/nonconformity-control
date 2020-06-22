@@ -5,13 +5,13 @@ namespace NonconformityControl.Models
 {
     public class Nonconformity
     {
-        public int Id { get; set; }
-        public int Version { get; set; }
+        public int Id { get; private set; }
+        public int Version { get; private set; }
         public string Code { get; private set; } 
-        public string Description { get;  set; }  
+        public string Description { get; private set; }  
         public virtual List<Action> Actions { get; private set; }
         public StatusEnum Status { get; private set; }
-        public EvaluationEnum Evaluation { get; set; }
+        public EvaluationEnum Evaluation { get; private set; }
 
         public Nonconformity(string description, int version = 1)
         {
