@@ -1,3 +1,4 @@
+using NonconformityControl.Models;
 using Xunit;
 
 namespace NonconformityControl.Tests.Models
@@ -5,20 +6,26 @@ namespace NonconformityControl.Tests.Models
     public class NonconformityTest
     {
         [Fact]
-        public void PassingTest()
+        public void NewNonconformityShouldStartWithVersionOne()
         {
-            Assert.Equal(4, Add(2, 2));
+            Nonconformity nonconformity = new Nonconformity("Controlled materials stored without proper indication.");
+            Assert.Equal(1, nonconformity.Version);
         }
 
         [Fact]
-        public void FailingTest()
+        public void ShouldUpdateCode()
         {
-            Assert.Equal(5, Add(2, 2));
+            Nonconformity nonconformity = new Nonconformity("Controlled materials stored without proper indication.");
+            nonconformity.UpdateCode("2019:02:05");
+            Assert.Equal("2019:02:05", nonconformity.Code);
         }
 
-        int Add(int x, int y)
+        [Fact]
+        public void ShouldBeSetAsInactiveWhenEvaluatedAsEfficient()
         {
-            return x + y;
+           Nonconformity nonconformity = new Nonconformity("Controlled materials stored without proper indication.");
+           nonconformity.setAsEfficient();
+           Assert.Equal(StatusEnum.Inactive, nonconformity.Status);
         }
     }
 }
