@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using NonconformityControl.Api.ViewModels;
 using NonconformityControl.Infra.Repositories;
@@ -57,6 +58,11 @@ namespace NonconformityControl.Services
         public ResultViewModel AddNonconformity(AddNonconformityViewModel request)
         {
             Nonconformity nonconformity = new Nonconformity(request.Description);
+            ValidationResult validationResult = nonconformity.isValid();
+            if(!validationResult.IsValid)
+            {
+                 return new ResultViewModel(false, nonconformity.Id, validationResult.ToString());
+            }
             nonconformity = _nonconformityRepository.Add(nonconformity);
             var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully saved!");
             return resultViewModel;
@@ -81,6 +87,11 @@ namespace NonconformityControl.Services
                 return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
             }
             Action action = new Action(id, request.Description);
+            ValidationResult validationResult = action.isValid();
+            if(!validationResult.IsValid)
+            {
+                 return new ResultViewModel(false, action.Id, validationResult.ToString());
+            }
             _nonconformityRepository.AddActionToNonconformity(id, action);
             _actionRepository.Add(action);
             return new ResultViewModel(true, nonconformity.Id, "Action successfully added!");

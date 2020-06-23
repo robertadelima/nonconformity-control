@@ -43,7 +43,7 @@ namespace NonconformityControl.Tests.Models
         public void NonconformityDescriptionLessThanMaxCaractersShouldPass(string description)
         {
             Nonconformity nonconformity = new Nonconformity(description);
-            Assert.True(nonconformity.isValid());
+            Assert.True(nonconformity.isValid().IsValid);
         }
 
         [Theory]
@@ -62,7 +62,7 @@ namespace NonconformityControl.Tests.Models
         public void NonconformityDescriptionGreaterThanMaxCaractersShouldFail(string description)
         {
             Nonconformity nonconformity = new Nonconformity(description);
-            Assert.False(nonconformity.isValid());
+            Assert.False(nonconformity.isValid().IsValid);
         }
     }
 }

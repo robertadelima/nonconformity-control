@@ -12,7 +12,7 @@ namespace NonconformityControl.Tests.Models
         public void ActionDescriptionShouldBeRequired(string description)
         {
             Action action = new Action(1, description);
-            Assert.False(action.isValid());
+            Assert.False(action.isValid().IsValid);
         }
     }
 }

@@ -16,11 +16,11 @@ namespace NonconformityControl.Models
             Description = description;
         }
 
-        public bool isValid() 
+        public ValidationResult isValid() 
         {
             var validator = new ActionValidator();
             ValidationResult results = validator.Validate(this);
-            return results.IsValid;
+            return results;
         } 
     }
 }
