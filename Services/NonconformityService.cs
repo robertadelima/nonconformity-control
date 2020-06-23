@@ -93,8 +93,8 @@ namespace NonconformityControl.Services
             {
                 return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
             }
-            var action = nonconformity.Actions.FirstOrDefault(p => p.Id == actionId);
-            if(nonconformity == null)
+            var action = nonconformity?.Actions?.FirstOrDefault(p => p.Id == actionId);
+            if(action == null)
             {
                 return new ResultViewModel(false, actionId, "Nonconformity does not contain this action!");
             }
