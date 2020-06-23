@@ -6,6 +6,7 @@ using NonconformityControl.Infra.Repositories;
 using NonconformityControl.Models;
 using NonconformityControl.Services;
 using Xunit;
+using System;
 
 namespace NonconformityControl.Tests.Services
 {
@@ -34,6 +35,27 @@ namespace NonconformityControl.Tests.Services
             
             _nonconformityService.AddNonconformity(nonconformityViewModel);
             Assert.Equal(nonconformityQuantity + 1, _nonconformityRepository.GetAll().Count());
+        }
+
+        [Fact]
+        public void ShouldSetVersionToOneWhenAddingNewNonconformity()
+        {
+            var nonconformityViewModel = new AddNonconformityViewModel();
+            nonconformityViewModel.Description = "Controlled materials stored without proper indication.";
+            
+            _nonconformityService.AddNonconformity(nonconformityViewModel);
+            Assert.Equal(1, _nonconformityRepository.GetAll().OrderByDescending(p => p.Id).FirstOrDefault().Version);
+        }
+
+        [Fact]
+        public void YearInCodeShouldBeSetToCurrentYearWhenAddingNewNonconformity()
+        {
+            var nonconformityViewModel = new AddNonconformityViewModel();
+            nonconformityViewModel.Description = "Controlled materials stored without proper indication.";
+            
+            _nonconformityService.AddNonconformity(nonconformityViewModel);
+            Assert.Equal(DateTime.UtcNow.Year.ToString(), 
+                _nonconformityRepository.GetAll().OrderByDescending(p => p.Id).FirstOrDefault().Code.Split(':', ':')[0]);
         }
 
         [Fact]
@@ -117,8 +139,19 @@ namespace NonconformityControl.Tests.Services
             Assert.Equal(nonconformity.Version + 1, newNonconformityCreated.Version);
         }
 
+        [Fact]
+        public void IdInCodeShouldBeSameAsOriginalOnCreatingNewNonconformityWhenEvaluateAsInefficient()
+        {
+            var nonconformityViewModel = new AddNonconformityViewModel();
+            nonconformityViewModel.Description = "Controlled materials stored without proper indication.";
+            _nonconformityService.AddNonconformity(nonconformityViewModel);
+            var nonconformity = _nonconformityRepository.GetAll().OrderByDescending(p => p.Id).FirstOrDefault();
 
-
+            _nonconformityService.EvaluateAsInefficient(nonconformity.Id);
+            var newNonconformityCreated =  _nonconformityRepository.GetAll().OrderByDescending(p => p.Id).FirstOrDefault();
+            
+            Assert.Equal(nonconformity.Code.Split(':', ':')[1], newNonconformityCreated.Code.Split(':', ':')[1]);
+        }
 
     }
 }
