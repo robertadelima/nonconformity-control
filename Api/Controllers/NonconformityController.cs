@@ -1,9 +1,6 @@
-using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NonconformityControl.Models;
-using NonconformityControl.Infra.Repositories;
 using NonconformityControl.Api.ViewModels;
 using NonconformityControl.Services;
 
@@ -15,15 +12,10 @@ namespace NonconformityControl.Controllers
     {
         private readonly ILogger<NonconformityController> _logger;
         private readonly NonconformityService _nonconformityService;
-        private readonly NonconformityRepository _repository;
-        private readonly ActionRepository _actionRepository;
 
-        public NonconformityController(NonconformityService nonconformityService, NonconformityRepository repository, 
-        ILogger<NonconformityController> logger, ActionRepository actionRepository)
+        public NonconformityController(NonconformityService nonconformityService, ILogger<NonconformityController> logger)
         {
             _nonconformityService = nonconformityService;
-            _repository = repository;
-            _actionRepository = actionRepository;
             _logger = logger;
         }
 
@@ -104,13 +96,8 @@ namespace NonconformityControl.Controllers
         [Route("{id}/efficient")]
         public IActionResult PutEfficient(int id)
         {
-            var nonconformity = _repository.GetById(id);
-            if(nonconformity == null)
-            {
-                return BadRequest();
-            }
-            _repository.UpdateAsEfficient(id);
-            return Ok("Successfully set as efficient nonconformity!");
+            var resultViewModel = _nonconformityService.EvaluateAsEfficient(id);
+            return new ObjectResult(resultViewModel);
         }
 
         /// <summary>
@@ -120,15 +107,8 @@ namespace NonconformityControl.Controllers
         [Route("{id}/inefficient")]
         public IActionResult PutInefficient(int id)
         {
-            var nonconformity = _repository.GetById(id);
-            if(nonconformity == null)
-            {
-                return BadRequest();
-            }
-            _repository.UpdateAsInefficient(id);
-            var newNonconformity = new Nonconformity(nonconformity.Description, nonconformity.Version + 1);
-            _repository.Add(newNonconformity);
-            return Ok("Successfully set as inefficient nonconformity and new version of nonconformity created!");
+            var resultViewModel = _nonconformityService.EvaluateAsInefficient(id);
+            return new ObjectResult(resultViewModel);
         }
 
         /// <summary>
@@ -138,10 +118,7 @@ namespace NonconformityControl.Controllers
         [Route("status")]
         public List<EnumViewModel> ListStatus()
         {
-            return System.Enum.GetValues(typeof(StatusEnum)).Cast<StatusEnum>().Select(p => new EnumViewModel {
-                Id = ((int)p),
-                Description = p.ToString()
-            }).ToList();
+            return _nonconformityService.ListStatus();
         }
 
         /// <summary>
@@ -151,10 +128,7 @@ namespace NonconformityControl.Controllers
         [Route("evaluation")]
         public List<EnumViewModel> ListEvaluation()
         {
-            return System.Enum.GetValues(typeof(EvaluationEnum)).Cast<EvaluationEnum>().Select(p => new EnumViewModel {
-                Id = ((int)p),
-                Description = p.ToString()
-            }).ToList();
+            return _nonconformityService.ListEvaluation();
         }
 
 

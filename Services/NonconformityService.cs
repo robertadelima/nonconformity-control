@@ -86,5 +86,46 @@ namespace NonconformityControl.Services
             return new ResultViewModel(true, nonconformity.Id, "Action successfully added!");
         }
 
+        public ResultViewModel EvaluateAsEfficient(int id)
+        {
+            var nonconformity = _nonconformityRepository.GetById(id);
+            if(nonconformity == null)
+            {
+                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+            }
+            _nonconformityRepository.UpdateAsEfficient(id);
+            return new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully set as efficient!");
+        }
+
+        public ResultViewModel EvaluateAsInefficient(int id)
+        {
+            var nonconformity = _nonconformityRepository.GetById(id);
+            if(nonconformity == null)
+            {
+                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+            }
+            _nonconformityRepository.UpdateAsInefficient(id);
+            var newNonconformity = new Nonconformity(nonconformity.Description, nonconformity.Version + 1);
+            _nonconformityRepository.Add(newNonconformity);
+            return new ResultViewModel(true, nonconformity.Id, 
+                "Nonconformity successfully set as inefficient and new version of nonconformity created!");
+        }
+
+        public List<EnumViewModel> ListStatus()
+        {
+            return System.Enum.GetValues(typeof(StatusEnum)).Cast<StatusEnum>().Select(p => new EnumViewModel {
+                Id = ((int)p),
+                Description = p.ToString()
+            }).ToList();
+        }
+
+        public List<EnumViewModel> ListEvaluation()
+        {
+            return System.Enum.GetValues(typeof(EvaluationEnum)).Cast<EvaluationEnum>().Select(p => new EnumViewModel {
+                Id = ((int)p),
+                Description = p.ToString()
+            }).ToList();
+        }
+
     }
 }
