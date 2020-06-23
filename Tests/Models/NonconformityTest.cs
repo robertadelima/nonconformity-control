@@ -27,5 +27,13 @@ namespace NonconformityControl.Tests.Models
            nonconformity.setAsEfficient();
            Assert.Equal(StatusEnum.Inactive, nonconformity.Status);
         }
+
+        [Fact]
+        public void ShouldBeSetAsInactiveWhenEvaluatedAsInefficient()
+        {
+           Nonconformity nonconformity = new Nonconformity("Controlled materials stored without proper indication.");
+           nonconformity.setAsInefficient();
+           Assert.Equal(StatusEnum.Inactive, nonconformity.Status);
+        }
     }
 }
