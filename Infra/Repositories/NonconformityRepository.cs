@@ -37,6 +37,11 @@ namespace NonconformityControl.Infra.Repositories
             return addedNonconformity;
         }
 
+        public void Remove(Nonconformity nonconformity){
+            _context.Nonconformities.Remove(nonconformity);
+            _context.SaveChanges();
+        }
+
         public void AddActionToNonconformity(int id, Models.Action action)
         {
             Nonconformity nonconformity = _context.Nonconformities.FirstOrDefault(p => p.Id == id);

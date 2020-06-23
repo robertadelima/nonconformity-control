@@ -24,6 +24,10 @@ namespace NonconformityControl.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Returns all nonconformities 
+        /// </summary>
+        /// <returns> List of nonconformities </returns>
         [HttpGet]
         [Route("")]
         public IEnumerable<ListNonconformityViewModel> Get()
@@ -42,6 +46,11 @@ namespace NonconformityControl.Controllers
             }).ToList();
         }
 
+        /// <summary>
+        /// Returns a nonconformity by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Nonconformities </returns>
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetById(int id)
@@ -55,6 +64,9 @@ namespace NonconformityControl.Controllers
             return new ObjectResult(nonconformity); // TODO
         }
 
+        /// <summary>
+        /// Creates a nonconformity
+        /// </summary>
         [HttpPost]
         [Route("")]
         public IActionResult Post([FromBody]AddNonconformityViewModel request)
@@ -70,6 +82,28 @@ namespace NonconformityControl.Controllers
             return new ObjectResult(resultViewModel);
         }
 
+        /// <summary>
+        /// Deletes a nonconformity
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult DeleteNonconformity(int id)
+        {
+            var nonconformity = _repository.GetById(id);
+            if(nonconformity == null)
+            {
+                return BadRequest("");
+            }
+            _repository.Remove(nonconformity);
+            var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully removed!");
+            
+            return new ObjectResult(resultViewModel);
+        }
+
+        /// <summary>
+        /// Creates an action in a nonconformity
+        /// </summary>
         [HttpPost]
         [Route("{id}/actions")]
         public IActionResult PostActions(int id, [FromBody]AddActionViewModel request)
@@ -89,6 +123,9 @@ namespace NonconformityControl.Controllers
             return Ok("Action successfully saved!");
         }
 
+        /// <summary>
+        /// Evaluates a nonconformity as efficient
+        /// </summary>
         [HttpPut]
         [Route("{id}/efficient")]
         public IActionResult PutEfficient(int id)
@@ -102,6 +139,9 @@ namespace NonconformityControl.Controllers
             return Ok("Successfully set as efficient nonconformity!");
         }
 
+        /// <summary>
+        /// Evaluates a nonconformity as inefficient
+        /// </summary>
         [HttpPut]
         [Route("{id}/inefficient")]
         public IActionResult PutInefficient(int id)
@@ -117,6 +157,9 @@ namespace NonconformityControl.Controllers
             return Ok("Successfully set as inefficient nonconformity and new version of nonconformity created!");
         }
 
+        /// <summary>
+        /// Lists Nonconformity Status Types
+        /// </summary>
         [HttpGet]
         [Route("status")]
         public List<EnumViewModel> ListStatus()
@@ -127,6 +170,9 @@ namespace NonconformityControl.Controllers
             }).ToList();
         }
 
+        /// <summary>
+        /// Lists Nonconformity Evaluations Types
+        /// </summary>
         [HttpGet]
         [Route("evaluation")]
         public List<EnumViewModel> ListEvaluation()

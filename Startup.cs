@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +39,9 @@ namespace NonconformityControl
 
              services.AddSwaggerGen(p => {
                 p.SwaggerDoc("v1", new OpenApiInfo{ Title= "Nonconformity Control API", Version = "v1"});
+
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "NonconformityControl.xml");
+                p.IncludeXmlComments(filePath);
             });
 
             services.AddScoped<NonconformityContext, NonconformityContext>();
