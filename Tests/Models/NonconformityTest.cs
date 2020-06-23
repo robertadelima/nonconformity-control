@@ -35,5 +35,34 @@ namespace NonconformityControl.Tests.Models
            nonconformity.setAsInefficient();
            Assert.Equal(StatusEnum.Inactive, nonconformity.Status);
         }
+
+        [Theory]
+        [InlineData("C")]
+        [InlineData("Controlled materials in wrong place.")]
+        [InlineData("Controlled materials stored without proper indication.")]
+        public void NonconformityDescriptionLessThanMaxCaractersShouldPass(string description)
+        {
+            Nonconformity nonconformity = new Nonconformity(description);
+            Assert.True(nonconformity.isValid());
+        }
+
+        [Theory]
+        [InlineData("Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication "
+        + "Controlled materials stored without proper indication Controlled materials stored without proper indication ")]
+        public void NonconformityDescriptionGreaterThanMaxCaractersShouldFail(string description)
+        {
+            Nonconformity nonconformity = new Nonconformity(description);
+            Assert.False(nonconformity.isValid());
+        }
     }
 }

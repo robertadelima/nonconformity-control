@@ -1,4 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+using FluentValidation.Results;
+using NonconformityControl.Models.ModelValidators;
 
 namespace NonconformityControl.Models
 {
@@ -14,5 +15,12 @@ namespace NonconformityControl.Models
             NonconformityId = nonconformityId;
             Description = description;
         }
+
+        public bool isValid() 
+        {
+            var validator = new ActionValidator();
+            ValidationResult results = validator.Validate(this);
+            return results.IsValid;
+        } 
     }
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using FluentValidation.Results;
+using NonconformityControl.Models.ModelValidators;
 
 namespace NonconformityControl.Models
 {
@@ -43,9 +45,11 @@ namespace NonconformityControl.Models
             setAsInactive();
         }
 
-        public void Validar() 
+        public bool isValid()   // TODO: check how to validate in constructor
         {
-            
-        }
+            var validator = new NonconformityValidator();
+            ValidationResult results = validator.Validate(this);
+            return results.IsValid;
+        } 
     }
 }

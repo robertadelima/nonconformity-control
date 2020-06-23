@@ -83,7 +83,7 @@ namespace NonconformityControl.Controllers
         {
             if(!ModelState.IsValid) 
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             };
             var resultViewModel = _nonconformityService.AddAction(id, request);
             return new ObjectResult(resultViewModel);
