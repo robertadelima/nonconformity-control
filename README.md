@@ -11,3 +11,5 @@
 4) To apply migrations: `dotnet ef database update`
 5) To run de application: `dotnet run`
 6) To check Swagger API documentation and use API: https://localhost:5001/swagger/index.html 
+
+![NonconformityControlAPI](https://github.com/robertadelima/nonconformity-control/blob/master/misc/NonconformityControl.gif)
