@@ -93,6 +93,10 @@ namespace NonconformityControl.Services
             {
                 return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
             }
+            if(nonconformity.Status == StatusEnum.Inactive)
+            {
+                return new ResultViewModel(false, nonconformity.Id, "Can't evaluate inactive nonconformity!");
+            }
             _nonconformityRepository.UpdateAsEfficient(id);
             return new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully set as efficient!");
         }
@@ -103,6 +107,10 @@ namespace NonconformityControl.Services
             if(nonconformity == null)
             {
                 return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+            }
+            if(nonconformity.Status == StatusEnum.Inactive)
+            {
+                return new ResultViewModel(false, nonconformity.Id, "Can't evaluate inactive nonconformity!");
             }
             _nonconformityRepository.UpdateAsInefficient(id);
             var newNonconformity = new Nonconformity(nonconformity.Description, nonconformity.Version + 1);
