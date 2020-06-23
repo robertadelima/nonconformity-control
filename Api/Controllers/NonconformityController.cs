@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using NonconformityControl.Models;
 using NonconformityControl.Infra.Repositories;
 using NonconformityControl.Api.ViewModels;
+using NonconformityControl.Services;
 
 namespace NonconformityControl.Controllers
 {
@@ -13,12 +14,14 @@ namespace NonconformityControl.Controllers
     public class NonconformityController : ControllerBase
     {
         private readonly ILogger<NonconformityController> _logger;
+        private readonly NonconformityService _nonconformityService;
         private readonly NonconformityRepository _repository;
         private readonly ActionRepository _actionRepository;
 
-        public NonconformityController(NonconformityRepository repository, ILogger<NonconformityController> logger,
-        ActionRepository actionRepository)
+        public NonconformityController(NonconformityService nonconformityService, NonconformityRepository repository, 
+        ILogger<NonconformityController> logger, ActionRepository actionRepository)
         {
+            _nonconformityService = nonconformityService;
             _repository = repository;
             _actionRepository = actionRepository;
             _logger = logger;
@@ -32,18 +35,7 @@ namespace NonconformityControl.Controllers
         [Route("")]
         public IEnumerable<ListNonconformityViewModel> Get()
         {
-            return _repository.GetAll().Select(p => new ListNonconformityViewModel
-            {
-                Id = p.Id,
-                Description = p.Description,
-                Code = p.Code,
-                Status = p.Status,
-                Actions = p.Actions.Select(p => new ActionViewModel
-                {
-                    Description = p.Description,
-                    Id = p.Id
-                }).ToList()
-            }).ToList();
+            return _nonconformityService.ListNonconformities();
         }
 
         /// <summary>

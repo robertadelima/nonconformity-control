@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using NonconformityControl.Api.ViewModels;
 using NonconformityControl.Api.ViewModelsValidators;
 using NonconformityControl.Infra.Repositories;
+using NonconformityControl.Services;
 
 namespace NonconformityControl
 {
@@ -45,6 +46,7 @@ namespace NonconformityControl
             });
 
             services.AddScoped<NonconformityContext, NonconformityContext>();
+            services.AddTransient<NonconformityService, NonconformityService>();
             services.AddTransient<NonconformityRepository, NonconformityRepository>();
             services.AddTransient<ActionRepository, ActionRepository>();
 
