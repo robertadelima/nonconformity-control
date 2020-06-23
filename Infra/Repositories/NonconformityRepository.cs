@@ -29,11 +29,7 @@ namespace NonconformityControl.Infra.Repositories
             _context.SaveChanges();
 
             var addedNonconformity = _context.Nonconformities.OrderByDescending(p => p.Id).FirstOrDefault();
-            var code = string.Concat((DateTime.UtcNow.Year) + ":" + addedNonconformity.Id.ToString("D2") + ":" 
-                + addedNonconformity.Version.ToString("D2")); 
-            addedNonconformity.UpdateCode(code);
-            _context.Nonconformities.Update(addedNonconformity);
-            _context.SaveChanges();
+            addedNonconformity = UpdateCodeWhenAdd(addedNonconformity);
             return addedNonconformity;
         }
 
@@ -64,6 +60,16 @@ namespace NonconformityControl.Infra.Repositories
             nonconformity.setAsInefficient();
             _context.Nonconformities.Update(nonconformity);
             _context.SaveChanges();
+        }
+
+        private Nonconformity UpdateCodeWhenAdd(Nonconformity addedNonconformity)
+        {
+            var code = string.Concat((DateTime.UtcNow.Year) + ":" + addedNonconformity.Id.ToString("D2") + ":" 
+                + addedNonconformity.Version.ToString("D2")); 
+            addedNonconformity.UpdateCode(code);
+            _context.Nonconformities.Update(addedNonconformity);
+            _context.SaveChanges();
+            return addedNonconformity;
         }
     }
 }
