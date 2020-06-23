@@ -73,7 +73,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+                return new ResultViewModel(false, id, "Nonconformity does not exist!");
             }
             _nonconformityRepository.Remove(nonconformity);
             return new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully removed!");
@@ -84,7 +84,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+                return new ResultViewModel(false, id, "Nonconformity does not exist!");
             }
             Action action = new Action(id, request.Description);
             ValidationResult validationResult = action.isValid();
@@ -102,7 +102,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+                return new ResultViewModel(false, id, "Nonconformity does not exist!");
             }
             var action = nonconformity?.Actions?.FirstOrDefault(p => p.Id == actionId);
             if(action == null)
@@ -118,7 +118,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+                return new ResultViewModel(false, id, "Nonconformity does not exist!");
             }
             if(nonconformity.Status == StatusEnum.Inactive)
             {
@@ -133,7 +133,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+                return new ResultViewModel(false, id, "Nonconformity does not exist!");
             }
             if(nonconformity.Status == StatusEnum.Inactive)
             {
