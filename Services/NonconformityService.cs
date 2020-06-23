@@ -113,8 +113,9 @@ namespace NonconformityControl.Services
                 return new ResultViewModel(false, nonconformity.Id, "Can't evaluate inactive nonconformity!");
             }
             _nonconformityRepository.UpdateAsInefficient(id);
+
             var newNonconformity = new Nonconformity(nonconformity.Description, nonconformity.Version + 1);
-            _nonconformityRepository.Add(newNonconformity);
+            _nonconformityRepository.AddNewVersion(newNonconformity, nonconformity.Id);
             return new ResultViewModel(true, nonconformity.Id, 
                 "Nonconformity successfully set as inefficient and new version of nonconformity created!");
         }

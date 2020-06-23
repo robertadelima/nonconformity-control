@@ -33,6 +33,16 @@ namespace NonconformityControl.Infra.Repositories
             return addedNonconformity;
         }
 
+        public Nonconformity AddNewVersion(Nonconformity nonconformity, int oldNonconformityId)
+        {
+            _context.Nonconformities.Add(nonconformity);
+            _context.SaveChanges();
+
+            var addedNonconformity = _context.Nonconformities.OrderByDescending(p => p.Id).FirstOrDefault();
+            addedNonconformity = UpdateCodeWhenAddNewVersionOfInconformity(addedNonconformity, oldNonconformityId);
+            return addedNonconformity;
+        }
+
         public void Remove(Nonconformity nonconformity){
             _context.Nonconformities.Remove(nonconformity);
             _context.SaveChanges();
@@ -65,6 +75,17 @@ namespace NonconformityControl.Infra.Repositories
         private Nonconformity UpdateCodeWhenAdd(Nonconformity addedNonconformity)
         {
             var code = string.Concat((DateTime.UtcNow.Year) + ":" + addedNonconformity.Id.ToString("D2") + ":" 
+                + addedNonconformity.Version.ToString("D2")); 
+            addedNonconformity.UpdateCode(code);
+            _context.Nonconformities.Update(addedNonconformity);
+            _context.SaveChanges();
+            return addedNonconformity;
+        }
+
+        private Nonconformity UpdateCodeWhenAddNewVersionOfInconformity(Nonconformity addedNonconformity,
+            int oldNonconformityId)
+        {
+            var code = string.Concat((DateTime.UtcNow.Year) + ":" + oldNonconformityId.ToString("D2") + ":" 
                 + addedNonconformity.Version.ToString("D2")); 
             addedNonconformity.UpdateCode(code);
             _context.Nonconformities.Update(addedNonconformity);
