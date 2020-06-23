@@ -23,5 +23,10 @@ namespace NonconformityControl.Infra.Repositories
             _context.Actions.Add(action);
             _context.SaveChanges();
         }
+
+        public void Remove(Action action){
+            _context.Actions.Remove(action);
+            _context.SaveChanges();
+        }
     }
 }

@@ -86,6 +86,22 @@ namespace NonconformityControl.Services
             return new ResultViewModel(true, nonconformity.Id, "Action successfully added!");
         }
 
+        public ResultViewModel RemoveAction(int id, int actionId)
+        {
+            var nonconformity = _nonconformityRepository.GetById(id);
+            if(nonconformity == null)
+            {
+                return new ResultViewModel(false, nonconformity.Id, "Nonconformity does not exist!");
+            }
+            var action = nonconformity.Actions.FirstOrDefault(p => p.Id == actionId);
+            if(nonconformity == null)
+            {
+                return new ResultViewModel(false, actionId, "Nonconformity does not contain this action!");
+            }
+            _actionRepository.Remove(action);
+            return new ResultViewModel(true, nonconformity.Id, "Action successfully removed!");
+        }
+
         public ResultViewModel EvaluateAsEfficient(int id)
         {
             var nonconformity = _nonconformityRepository.GetById(id);

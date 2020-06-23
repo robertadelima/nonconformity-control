@@ -90,6 +90,19 @@ namespace NonconformityControl.Controllers
         }
 
         /// <summary>
+        /// Deletes an action
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="actionId"></param>
+        [HttpDelete]
+        [Route("{id}/actions/{actionId}")]
+        public IActionResult DeleteAction(int id, int actionId)
+        {
+            var resultViewModel = _nonconformityService.RemoveAction(id, actionId);
+            return new ObjectResult(resultViewModel);
+        }
+
+        /// <summary>
         /// Evaluates a nonconformity as efficient
         /// </summary>
         [HttpPut]
