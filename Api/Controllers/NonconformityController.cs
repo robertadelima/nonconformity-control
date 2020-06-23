@@ -59,16 +59,25 @@ namespace NonconformityControl.Controllers
         [Route("")]
         public IActionResult Post([FromBody]AddNonconformityViewModel request)
         {
-            // TODO: model.Validate();
+            if(!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            };
             Nonconformity nonconformity = new Nonconformity(request.Description);
-            _repository.Add(nonconformity);
-            return Ok("Nonconformity successfully saved!");
+            nonconformity = _repository.Add(nonconformity);
+            var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully saved!");
+            
+            return new ObjectResult(resultViewModel);
         }
 
         [HttpPost]
         [Route("{id}/actions")]
         public IActionResult PostActions(int id, [FromBody]AddActionViewModel request)
         {
+            if(!ModelState.IsValid) 
+            {
+                return BadRequest(ModelState);
+            };
             var nonconformity = _repository.GetById(id);
             if(nonconformity == null)
             {

@@ -24,7 +24,7 @@ namespace NonconformityControl.Infra.Repositories
             return _context.Nonconformities.Include(p => p.Actions).AsNoTracking().FirstOrDefault(p => p.Id == id);
         } 
 
-        public void Add(Nonconformity nonconformity){
+        public Nonconformity Add(Nonconformity nonconformity){
             _context.Nonconformities.Add(nonconformity);
             _context.SaveChanges();
 
@@ -34,6 +34,7 @@ namespace NonconformityControl.Infra.Repositories
             addedNonconformity.UpdateCode(code);
             _context.Nonconformities.Update(addedNonconformity);
             _context.SaveChanges();
+            return addedNonconformity;
         }
 
         public void AddActionToNonconformity(int id, Models.Action action)

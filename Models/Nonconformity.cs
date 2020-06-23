@@ -37,15 +37,15 @@ namespace NonconformityControl.Models
             this.Status = StatusEnum.Inactive;
         }
 
-        public void Validar() 
-        {
-
-        }
-
         internal void setAsInefficient()
         {
             this.Evaluation = EvaluationEnum.Inefficient;
             setAsInactive();
+        }
+
+        public void Validar() 
+        {
+            
         }
     }
 }
