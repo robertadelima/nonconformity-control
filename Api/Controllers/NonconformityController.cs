@@ -47,13 +47,12 @@ namespace NonconformityControl.Controllers
         [Route("{id}")]
         public IActionResult GetById(int id)
         {
-            var nonconformity = _repository.GetById(id);
+            var nonconformity = _nonconformityService.GetById(id);
             if(nonconformity == null)
             {
                 return NotFound();
             }
-            
-            return new ObjectResult(nonconformity); // TODO
+            return new ObjectResult(nonconformity); 
         }
 
         /// <summary>
@@ -67,10 +66,7 @@ namespace NonconformityControl.Controllers
             {
                 return BadRequest(ModelState);
             };
-            Nonconformity nonconformity = new Nonconformity(request.Description);
-            nonconformity = _repository.Add(nonconformity);
-            var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully saved!");
-            
+            var resultViewModel = _nonconformityService.AddNonconformity(request);
             return new ObjectResult(resultViewModel);
         }
 
@@ -82,14 +78,7 @@ namespace NonconformityControl.Controllers
         [Route("{id}")]
         public IActionResult DeleteNonconformity(int id)
         {
-            var nonconformity = _repository.GetById(id);
-            if(nonconformity == null)
-            {
-                return BadRequest("");
-            }
-            _repository.Remove(nonconformity);
-            var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully removed!");
-            
+            var resultViewModel = _nonconformityService.RemoveNonconformity(id);
             return new ObjectResult(resultViewModel);
         }
 
@@ -104,15 +93,8 @@ namespace NonconformityControl.Controllers
             {
                 return BadRequest(ModelState);
             };
-            var nonconformity = _repository.GetById(id);
-            if(nonconformity == null)
-            {
-                return BadRequest("");
-            }
-            Action action = new Action(id, request.Description);
-            _repository.AddActionToNonconformity(id, action);
-            _actionRepository.Add(action);
-            return Ok("Action successfully saved!");
+            var resultViewModel = _nonconformityService.AddAction(id, request);
+            return new ObjectResult(resultViewModel);
         }
 
         /// <summary>
