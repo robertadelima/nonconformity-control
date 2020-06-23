@@ -40,7 +40,7 @@ namespace NonconformityControl.Services
             var nonconformity = _nonconformityRepository.GetById(id);
             if(nonconformity == null)
             {
-                return new ListNonconformityViewModel();
+                return null;
             }
             var nonconformityViewModel = new ListNonconformityViewModel();
             nonconformityViewModel.Id = nonconformity.Id;

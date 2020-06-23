@@ -42,7 +42,7 @@ namespace NonconformityControl.Controllers
             var nonconformity = _nonconformityService.GetById(id);
             if(nonconformity == null)
             {
-                return NotFound();
+                return NotFound(new ResultViewModel(false, id, "Nonconformity does not exist!"));
             }
             return new ObjectResult(nonconformity); 
         }
@@ -71,6 +71,10 @@ namespace NonconformityControl.Controllers
         public IActionResult DeleteNonconformity(int id)
         {
             var resultViewModel = _nonconformityService.RemoveNonconformity(id);
+            if(!resultViewModel.Success)
+            {
+                return NotFound(resultViewModel);
+            }
             return new ObjectResult(resultViewModel);
         }
 
@@ -86,6 +90,10 @@ namespace NonconformityControl.Controllers
                 return BadRequest();
             };
             var resultViewModel = _nonconformityService.AddAction(id, request);
+            if(!resultViewModel.Success)
+            {
+                return NotFound(resultViewModel);
+            }
             return new ObjectResult(resultViewModel);
         }
 
@@ -99,6 +107,10 @@ namespace NonconformityControl.Controllers
         public IActionResult DeleteAction(int id, int actionId)
         {
             var resultViewModel = _nonconformityService.RemoveAction(id, actionId);
+            if(!resultViewModel.Success)
+            {
+                return NotFound(resultViewModel);
+            }
             return new ObjectResult(resultViewModel);
         }
 
@@ -110,6 +122,10 @@ namespace NonconformityControl.Controllers
         public IActionResult PutEfficient(int id)
         {
             var resultViewModel = _nonconformityService.EvaluateAsEfficient(id);
+            if(!resultViewModel.Success)
+            {
+                return NotFound(resultViewModel);
+            }
             return new ObjectResult(resultViewModel);
         }
 
@@ -121,6 +137,10 @@ namespace NonconformityControl.Controllers
         public IActionResult PutInefficient(int id)
         {
             var resultViewModel = _nonconformityService.EvaluateAsInefficient(id);
+            if(!resultViewModel.Success)
+            {
+                return NotFound(resultViewModel);
+            }
             return new ObjectResult(resultViewModel);
         }
 
