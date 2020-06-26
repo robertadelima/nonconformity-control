@@ -63,9 +63,22 @@ namespace NonconformityControl.Services
             {
                  return new ResultViewModel(false, nonconformity.Id, validationResult.ToString());
             }
+
             nonconformity = _nonconformityRepository.Add(nonconformity);
+            nonconformity = UpdateCodeWhenAdd(nonconformity);
+
             var resultViewModel = new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully saved!");
             return resultViewModel;
+        }
+
+        private Nonconformity UpdateCodeWhenAdd(Nonconformity nonconformity)
+        {
+            var code = string.Concat((System.DateTime.UtcNow.Year) + ":" + nonconformity.Id.ToString("D2") + ":" 
+                + nonconformity.Version.ToString("D2")); 
+            nonconformity.UpdateCode(code);
+            _nonconformityRepository.Update(nonconformity);
+            
+            return nonconformity;
         }
 
         public ResultViewModel RemoveNonconformity(int id)
@@ -124,7 +137,8 @@ namespace NonconformityControl.Services
             {
                 return new ResultViewModel(false, nonconformity.Id, "Can't evaluate inactive nonconformity!");
             }
-            _nonconformityRepository.UpdateAsEfficient(id);
+            nonconformity.setAsEfficient();
+            _nonconformityRepository.Update(nonconformity);
             return new ResultViewModel(true, nonconformity.Id, "Nonconformity successfully set as efficient!");
         }
 
